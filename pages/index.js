@@ -1,6 +1,6 @@
 import React from 'react'
 import tw from 'twin.macro'
-import Signup from '../components/Signup'
+import Signup from '../components/register/Signup'
 import { Button, Logo } from './../components'
 
 const styles = {

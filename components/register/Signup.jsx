@@ -3,12 +3,12 @@ const axios = require('axios').default
 
 import RightArrow from 'feather-icons/dist/icons/arrow-right.svg'
 import tw from 'twin.macro'
-import CITIES from '../public/cities'
-import STATES from '../public/states'
+import CITIES from '../../public/cities'
+import STATES from '../../public/states'
 
-import PersonalInfo from './register/PersonalInfo'
-import ContactInfo from './register/ContactInfo'
-import Interests from './register/Interests'
+import PersonalInfo from './PersonalInfo'
+import ContactInfo from './ContactInfo'
+import Interests from './Interests'
 export default function SignUp() {
   const [pageIdex, setPageIndex] = useState(0)
   const [password, setPassword] = useState(null)
