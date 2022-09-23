@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react'
+const axios = require('axios').default
 
 import RightArrow from 'feather-icons/dist/icons/arrow-right.svg'
 import tw from 'twin.macro'
@@ -6,11 +7,14 @@ import CITIES from '../public/cities'
 import STATES from '../public/states'
 
 import PersonalInfo from './register/PersonalInfo'
-
+import ContactInfo from './register/ContactInfo'
+import Interests from './register/Interests'
 export default function SignUp() {
   const [pageIdex, setPageIndex] = useState(0)
   const [password, setPassword] = useState(null)
+  const [verifyPassword, setVerifyPassword] = useState(null)
   const [userName, setUserName] = useState(null)
+  const [name, setName] = useState(null)
   const [email, setEmail] = useState(null)
   const [contact, setContact] = useState(null)
   const [birthDate, setBirthDate] = useState(null)
@@ -29,12 +33,13 @@ export default function SignUp() {
   const CONTACT_REGEX =
     /^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/
 
-  const handleSubmit = e => {
+  const handleSubmit = async e => {
     e.preventDefault()
     setErrors([])
     if (
       !userName ||
       !password ||
+      !name ||
       !email ||
       !contact ||
       !birthDate ||
@@ -59,12 +64,24 @@ export default function SignUp() {
       setErrors([...errors, 'Website URL is invalid!'])
     }
 
+    if (password !== verifyPassword) {
+      setErrors([...errors, 'Password are not matching.'])
+    }
     // TODO: Check if username is already taken
+    // const isUsernameAvailable = await axios.get('/api/user/getUser', {
+    //   params: {
+    //     uid: userName,
+    //   },
+    // })
 
+    // if (isUsernameAvailable) {
+    //   alert('Username already exists!')
+    // }
     console.log({
       userName,
       email,
       contact,
+      name,
       location,
       position,
       organization,
@@ -86,21 +103,32 @@ export default function SignUp() {
 
         <form tw="my-10" onSubmit={handleSubmit}>
           <div tw="flex flex-col space-y-5">
-            <PersonalInfo
-              setPassword={setPassword}
-              setUserName={setUserName}
-              setBirthDate={setBirthDate}
-              errors={errors}
-            />
-
-            {/* Submit */}
-            <button tw="inline-flex text-xl font-bold items-center justify-center w-full py-3 space-x-2 font-medium text-white bg-indigo-600 border-indigo-500 rounded-lg hover:bg-indigo-500 hover:shadow">
-              Next Section{' '}
-              <span tw="mx-2">
-                {' '}
-                <RightArrow />
-              </span>
-            </button>
+            {pageIdex === 0 ? (
+              <PersonalInfo
+                setVerifyPassword={setVerifyPassword}
+                setPassword={setPassword}
+                setUserName={setUserName}
+                setEmail={setEmail}
+                setPageIndex={setPageIndex}
+                errors={errors}
+              />
+            ) : pageIdex === 1 ? (
+              <ContactInfo
+                setName={setName}
+                setContact={setContact}
+                setBirthDate={setBirthDate}
+                setPageIndex={setPageIndex}
+                setWebsite={setWebsite}
+                errors={errors}
+              />
+            ) : (
+              <Interests
+                setInterests={setInterests}
+                interests={interests}
+                setPageIndex={setPageIndex}
+                handleSubmit={handleSubmit}
+              />
+            )}
 
             <div>
               {errors &&
