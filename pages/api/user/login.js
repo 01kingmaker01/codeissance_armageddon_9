@@ -14,7 +14,7 @@ const handler = async (req, res) => {
     //check if the user exits.
 
     const isUser = await User.find({
-      $or: [{ emailId: userId }, { username: userId }],
+      $or: [{ email: userId }, { username: userId }],
     })
 
     if (isUser.length == 0) {

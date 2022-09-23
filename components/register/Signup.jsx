@@ -101,8 +101,10 @@ export default function SignUp() {
           </a>
         </p>
 
-        <form tw="my-10" onSubmit={handleSubmit}>
-          <div tw="flex flex-col space-y-5">
+        <div tw="flex flex-col space-y-5">
+          <PersonalInfo />
+        </div>
+        {/* <div tw="flex flex-col space-y-5">
             {pageIdex === 0 ? (
               <PersonalInfo
                 setVerifyPassword={setVerifyPassword}
@@ -130,18 +132,8 @@ export default function SignUp() {
               />
             )}
 
-            <div>
-              {errors &&
-                errors.map(error => {
-                  return (
-                    <p key={error} tw="text-red-500">
-                      🚩 {error}
-                    </p>
-                  )
-                })}
-            </div>
-          </div>
-        </form>
+            
+          </div> */}
       </div>
     </>
   )
