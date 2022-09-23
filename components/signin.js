@@ -1,9 +1,12 @@
+import React, { useState, useEffect } from 'react'
 import tw from 'twin.macro'
 import styled from 'styled-components'
 import logo from '../assets/images/twitter-icon.svg'
 import googleIconImageSrc from '../assets/images/google-icon.png'
 import LoginIcon from 'feather-icons/dist/icons/log-in.svg'
 import Image from 'next/image'
+import axios from 'axios'
+import { useRouter } from 'next/router'
 
 const Content = tw.div`w-full  bg-white text-gray-900 shadow sm:rounded-lg flex justify-center `
 const MainContainer = tw.div`lg:w-1/2 xl:w-5/12 p-6 sm:p-12`
@@ -40,62 +43,114 @@ const SubmitButton = styled.button`
     ${tw`ml-3`}
   }
 `
-
-export default ({
+const Signin = ({
   socialButtons = [
     {
       iconImageSrc: googleIconImageSrc,
       text: 'Sign In With Google',
+      url: '/api/google',
     },
   ],
-}) => (
-  <Content>
-    <MainContainer>
-      <LogoLink href="#">
-        <Image tw="h-12 mx-auto" src={logo} />
-      </LogoLink>
-      <MainContent>
-        <Heading>Sign In To SomeThing</Heading>
-        <FormContainer>
-          <SocialButtonsContainer>
-            {socialButtons.map((socialButton, index) => (
-              <SocialButton key={index} href={socialButton.url}>
-                <span className="iconContainer">
-                  <Image
-                    width="24px"
-                    height="24px"
-                    src={socialButton.iconImageSrc}
-                    alt={socialButton.text}
-                  />
-                </span>
-                <span className="text">{socialButton.text}</span>
-              </SocialButton>
-            ))}
-          </SocialButtonsContainer>
-          <DividerTextContainer>
-            <DividerText>Or Sign in with your e-mail</DividerText>
-          </DividerTextContainer>
-          <Form>
-            <Input type="email" placeholder="Email" />
-            <Input type="password" placeholder="Password" />
-            <SubmitButton type="submit">
-              <LoginIcon className="icon" />
-              <span className="text">Sign In</span>
-            </SubmitButton>
-          </Form>
-          <p tw="mt-6 text-xs text-gray-600 text-center">
-            <a href="#" tw="border-b border-gray-500 border-dotted">
-              Forgot Password ?
-            </a>
-          </p>
-          <p tw="mt-8 text-sm text-gray-600 text-center">
-            Dont have an account?{' '}
-            <a href="#" tw="border-b border-gray-500 border-dotted">
-              Sign Up
-            </a>
-          </p>
-        </FormContainer>
-      </MainContent>
-    </MainContainer>
-  </Content>
-)
+}) => {
+  const router = useRouter()
+  const [error, setError] = useState([])
+  const [userId, setUserId] = useState('')
+  const [password, setPassword] = useState('')
+  const EMAIL_REGEX =
+    /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+  const loginUser = async e => {
+    e.preventDefault()
+    try {
+      if (!userId || !password) {
+        setErrors([...errors, 'All Fileds are required'])
+      }
+
+      if (!userId) {
+        setErrors([...errors, 'User Email or Username is required'])
+      }
+      if (!password) {
+        setErrors([...errors, 'Password is required'])
+      }
+
+      await axios
+        .post('http://localhost:3000/api/user/login', {
+          userId,
+          userPassword: password,
+        })
+        .then(response => {
+          console.log(response)
+          router.push('/')
+        })
+        .catch(error => {
+          console.log(error)
+        })
+    } catch (error) {
+      console.error(error)
+    }
+  }
+
+  console.log(userId, password)
+  return (
+    <Content>
+      <MainContainer>
+        <LogoLink href="#">
+          <Image tw="h-12 mx-auto" src={logo} />
+        </LogoLink>
+        <MainContent>
+          <Heading>Sign In To SomeThing</Heading>
+          <FormContainer>
+            <SocialButtonsContainer>
+              {socialButtons.map((socialButton, index) => (
+                <SocialButton key={index} href={socialButton.url}>
+                  <span className="iconContainer">
+                    <Image
+                      width="24px"
+                      height="24px"
+                      src={socialButton.iconImageSrc}
+                      alt={socialButton.text}
+                    />
+                  </span>
+                  <span className="text">{socialButton.text}</span>
+                </SocialButton>
+              ))}
+            </SocialButtonsContainer>
+            <DividerTextContainer>
+              <DividerText>Or Sign in with your e-mail</DividerText>
+            </DividerTextContainer>
+            <Form onSubmit={e => loginUser(e)}>
+              <Input
+                type="email"
+                placeholder="Email"
+                value={userId}
+                onChange={e => setUserId(e.target.value)}
+              />
+              <Input
+                type="password"
+                placeholder="Password"
+                value={password}
+                onChange={e => setPassword(e.target.value)}
+              />
+              <SubmitButton type="submit">
+                <LoginIcon className="icon" />
+                <span className="text">Sign In</span>
+              </SubmitButton>
+            </Form>
+            <p tw="mt-6 text-xs text-gray-600 text-center">
+              <a href="#" tw="border-b border-gray-500 border-dotted">
+                Forgot Password ?
+              </a>
+            </p>
+            <p tw="mt-8 text-sm text-gray-600 text-center">
+              Dont have an account?{' '}
+              <a href="#" tw="border-b border-gray-500 border-dotted">
+                Sign Up
+              </a>
+            </p>
+          </FormContainer>
+        </MainContent>
+      </MainContainer>
+    </Content>
+  )
+}
+
+export default Signin

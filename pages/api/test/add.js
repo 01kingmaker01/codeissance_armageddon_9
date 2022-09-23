@@ -1,6 +1,7 @@
 import connectMongo from '../../../assets/utils/connectMongo'
 import disconnectMongo from '../../../assets/utils/disconnectMongo'
-import { Test } from '../../../models/testModel'
+import Test from '../../../models/testModel'
+import User from "../../../models/user"
 
 /**
  * @param {import('next').NextApiRequest} req
@@ -13,14 +14,14 @@ export default async function addTest(req, res) {
     console.log('CONNECTED TO MONGO')
 
     console.log('CREATING DOCUMENT')
-    const test = await Test.create(req.body)
+    const user = await User.create(req.body)
     console.log('CREATED DOCUMENT')
 
     console.log('DISCONNECTING MONGODB')
     await disconnectMongo()
     console.log('DISCONNECTED MONGODB')
 
-    res.json({ test })
+    res.json({ user })
   } catch (error) {
     console.log(error)
     res.json({ error })

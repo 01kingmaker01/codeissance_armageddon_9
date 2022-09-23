@@ -1,7 +1,7 @@
 import * as bcrypt from 'bcryptjs'
 import * as jwt from 'jsonwebtoken'
 import nookies from 'nookies'
-import { User } from '../../../models/user'
+import User from '../../../models/user'
 import connectMongo from '../../../assets/utils/connectMongo'
 import disconnectMongo from '../../../assets/utils/disconnectMongo'
 
@@ -10,7 +10,6 @@ const secret = 'secret'
 const handler = async (req, res) => {
   try {
     const { userId, userPassword } = req.body
-    console.log('connecting')
     await connectMongo()
     //check if the user exits.
 
