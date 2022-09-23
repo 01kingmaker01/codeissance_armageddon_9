@@ -3,6 +3,8 @@
 const mongoose = require('mongoose')
 const Schema = mongoose.Schema
 
+mongoose.Promise = global.Promise
+
 const userSchema = new Schema({
   _uid: String,
   username: String,
@@ -19,4 +21,4 @@ const userSchema = new Schema({
   organised: [String],
 })
 
-export const User = mongoose.model('User', userSchema)
+module.exports = mongoose.models.User || mongoose.model('User', userSchema)
