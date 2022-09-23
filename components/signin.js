@@ -46,6 +46,7 @@ export default ({
     {
       iconImageSrc: googleIconImageSrc,
       text: 'Sign In With Google',
+      callback: '/api/google',
     },
   ],
 }) => (
@@ -72,6 +73,9 @@ export default ({
               </SocialButton>
             ))}
           </SocialButtonsContainer>
+          <a href="/api/google" tw="w-32 p-2 border-2 border-gray-200">
+            SignIn
+          </a>
           <DividerTextContainer>
             <DividerText>Or Sign in with your e-mail</DividerText>
           </DividerTextContainer>
