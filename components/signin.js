@@ -7,6 +7,7 @@ import LoginIcon from 'feather-icons/dist/icons/log-in.svg'
 import Image from 'next/image'
 import axios from 'axios'
 import { useRouter } from 'next/router'
+import toast from 'react-hot-toast'
 
 const Content = tw.div`w-full  bg-white text-gray-900 shadow sm:rounded-lg flex justify-center `
 const MainContainer = tw.div`lg:w-1/2 xl:w-5/12 p-6 sm:p-12`
@@ -52,37 +53,56 @@ const Signin = ({
     },
   ],
 }) => {
+  let notification
   const router = useRouter()
-  const [error, setError] = useState([])
+  const [error, setError] = useState('')
   const [userId, setUserId] = useState('')
   const [password, setPassword] = useState('')
-  const EMAIL_REGEX =
-    /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+  const PASSWORD_REGEX =
+    /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/gm
+
   const loginUser = async e => {
     e.preventDefault()
+
     try {
-      if (!userId || !password) {
-        setErrors([...errors, 'All Fileds are required'])
+      if (!userId && !password) {
+        setError('All Fileds are required')
+        return
       }
 
       if (!userId) {
-        setErrors([...errors, 'User Email or Username is required'])
-      }
-      if (!password) {
-        setErrors([...errors, 'Password is required'])
+        setError('User Email or Username is required')
+        return
       }
 
+      if (!PASSWORD_REGEX.test(password)) {
+        setError('Password is not valid!')
+        return
+      }
+
+      if (!password) {
+        setError('Password is required')
+        return
+      }
+      notification = toast.loading('Checking Credentials!')
       await axios
         .post('http://localhost:3000/api/user/login', {
           userId,
           userPassword: password,
         })
         .then(response => {
-          console.log(response)
+          // console.log(response)
+          toast.success('Verified!', {
+            id: notification,
+          })
+          setError('')
           router.push('/')
         })
         .catch(error => {
           console.log(error)
+          toast.error(error.response.data.error, {
+            id: notification,
+          })
         })
     } catch (error) {
       console.error(error)
@@ -119,7 +139,7 @@ const Signin = ({
             </DividerTextContainer>
             <Form onSubmit={e => loginUser(e)}>
               <Input
-                type="email"
+                type="text"
                 placeholder="Email"
                 value={userId}
                 onChange={e => setUserId(e.target.value)}
@@ -146,6 +166,13 @@ const Signin = ({
                 Sign Up
               </a>
             </p>
+            <div>
+              {error && (
+                <p key={error} tw="text-red-500">
+                  🚩 {error}
+                </p>
+              )}
+            </div>
           </FormContainer>
         </MainContent>
       </MainContainer>
