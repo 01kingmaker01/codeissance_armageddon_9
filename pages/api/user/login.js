@@ -10,7 +10,6 @@ const secret = 'secret'
 const handler = async (req, res) => {
   try {
     const { userId, userPassword } = req.body
-    console.log('connecting')
     await connectMongo()
     //check if the user exits.
 

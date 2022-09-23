@@ -11,10 +11,10 @@ const handler = async (req, res) => {
   try {
     const { userId, userPassword } = req.body
     console.log(userId, userPassword)
-    console.log('connecting')
+
     await connectMongo()
     //check if the user exits.
-    console.log("hello")
+
     const isUser = await User.find({
       $or: [{ emailId: userId }, { username: userId }],
     })
