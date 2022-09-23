@@ -16,7 +16,7 @@ const SocialButtonsContainer = tw.div`flex flex-col items-center`
 const SocialButton = styled.a`
   ${tw`w-full max-w-xs font-semibold rounded-lg py-3 border text-gray-900 bg-gray-100 hocus:bg-gray-200 hocus:border-gray-400 flex items-center justify-center transition-all duration-300 focus:outline-none focus:shadow-xl text-sm mt-5 first:mt-0`}
   .iconContainer {
-    ${tw`bg-white p-2 rounded-full`}
+    ${tw`bg-white p-1 rounded-full`}
   }
   .icon {
     ${tw`w-4`}
@@ -62,8 +62,8 @@ export default ({
               <SocialButton key={index} href={socialButton.url}>
                 <span className="iconContainer">
                   <Image
-                    width="32px"
-                    height="32px"
+                    width="24px"
+                    height="24px"
                     src={socialButton.iconImageSrc}
                     alt={socialButton.text}
                   />
