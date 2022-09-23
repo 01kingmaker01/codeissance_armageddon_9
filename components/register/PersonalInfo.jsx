@@ -69,7 +69,7 @@ function PersonalInfo({}) {
           setUsername('')
           setPassword('')
           setVerifyPassword('')
-          router.push('/dashboard')
+          router.push('/')
         })
         .catch(error => {
           toast.error(error.response.data.error, {

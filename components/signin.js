@@ -98,7 +98,7 @@ const Signin = ({
           setError('')
           setUserId('')
           setPassword('')
-          router.push('/dashboard')
+          router.push('/')
         })
         .catch(error => {
           console.log(error)
