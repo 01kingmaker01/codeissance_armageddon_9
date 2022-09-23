@@ -1,7 +1,7 @@
 import * as bcrypt from 'bcryptjs'
 import * as jwt from 'jsonwebtoken'
 import nookies from 'nookies'
-import { User } from '../../../models/user'
+import User from '../../../models/user'
 import connectMongo from '../../../assets/utils/connectMongo'
 import disconnectMongo from '../../../assets/utils/disconnectMongo'
 
@@ -19,8 +19,6 @@ const handler = async (req, res) => {
     const isUserEmail = await User.find({
       emailId: userEmail,
     })
-
-    console.log(isUserEmail)
 
     const isUserUserName = await User.find({
       username: userUsername,

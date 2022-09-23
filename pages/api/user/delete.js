@@ -1,7 +1,7 @@
 import * as bcrypt from 'bcryptjs'
 import * as jwt from 'jsonwebtoken'
 import nookies from 'nookies'
-import User from '../../../models/user'
+import { User } from '../../../models/user'
 import connectMongo from '../../../assets/utils/connectMongo'
 import disconnectMongo from '../../../assets/utils/disconnectMongo'
 
@@ -10,6 +10,7 @@ const secret = 'secret'
 const handler = async (req, res) => {
   try {
     const { userId, userPassword } = req.body
+
     await connectMongo()
     //check if the user exits.
 
@@ -28,19 +29,24 @@ const handler = async (req, res) => {
       throw new Error('Password is incorrect!')
     }
 
-    // creating the jwt token and storing it in cookies.
-    const token = jwt.sign({ userId: isUser[0]._id }, secret, {
-      expiresIn: '7d',
+    await User.deleteOne({
+      $and: [{$or: [{emailid: userId}, {username: userId}]}, {password: isUser[0].password}]
     })
 
-    // Setting the cookies.
-    nookies.set({ res }, 'token', token, {
-      httpOnly: true,
-      domain: process.env.SERVER_DOMAIN || undefined,
-      maxAge: 60 * 60 * 24 * 7,
-      sameSite: true,
-      path: '/',
-    })
+
+    // // creating the jwt token and storing it in cookies.
+    // const token = jwt.sign({ userId: isUser[0]._id }, secret, {
+    //   expiresIn: '7d',
+    // })
+
+    // // Setting the cookies.
+    // nookies.set({ res }, 'token', token, {
+    //   httpOnly: true,
+    //   domain: process.env.SERVER_DOMAIN || undefined,
+    //   maxAge: 60 * 60 * 24 * 7,
+    //   sameSite: true,
+    //   path: '/',
+    // })
 
     await disconnectMongo()
 
