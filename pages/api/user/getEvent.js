@@ -9,7 +9,7 @@ const handler = async (req, res) => {
       const { eid } = req.query
       await connectMongo()
       
-      const doc = await Event.find(
+      const doc = await Event.findOne(
         { _id : new ObjectId(eid)}
       )
       await disconnectMongo()
