@@ -20,13 +20,9 @@ const handler = async (req, res) => {
       email: userEmail,
     })
 
-    console.log(isUserEmail)
-
     const isUserUserName = await User.find({
       username: userUsername,
     })
-
-    console.log(isUserUserName)
 
     if (isUserEmail.length > 0) {
       throw new Error('User Email exits!')
