@@ -20,7 +20,7 @@ export default async function addTest(req, res) {
     await disconnectMongo()
     console.log('DISCONNECTED MONGODB')
 
-    res.json({ TextTrackCueList })
+    res.json({ test })
   } catch (error) {
     console.log(error)
     res.json({ error })
