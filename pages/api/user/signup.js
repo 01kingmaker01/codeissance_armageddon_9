@@ -21,8 +21,6 @@ const handler = async (req, res) => {
       emailId: userEmail,
     })
 
-    console.log(isUserEmail)
-
     const isUserUserName = await User.find({
       username: userUsername,
     })
