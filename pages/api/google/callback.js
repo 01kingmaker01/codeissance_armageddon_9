@@ -15,7 +15,7 @@ export default async function (req, res, next) {
       domain: process.env.SERVER_DOMAIN || undefined,
       maxAge: 60 * 60 * 24 * 7,
       sameSite: true,
-      path: '/',
+      path: '/dashboard',
     })
 
     res.redirect(`http://localhost:3000`)

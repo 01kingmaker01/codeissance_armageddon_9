@@ -96,7 +96,9 @@ const Signin = ({
             id: notification,
           })
           setError('')
-          router.push('/')
+          setUserId('')
+          setPassword('')
+          router.push('/dashboard')
         })
         .catch(error => {
           console.log(error)
@@ -109,7 +111,6 @@ const Signin = ({
     }
   }
 
-  console.log(userId, password)
   return (
     <Content>
       <MainContainer>
