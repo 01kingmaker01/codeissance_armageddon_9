@@ -2,7 +2,9 @@ import connectMongo from '../../../assets/utils/connectMongo'
 import disconnectMongo from '../../../assets/utils/disconnectMongo'
 import Test from '../../../models/testModel'
 import User from "../../../models/user"
-
+import Event from "../../../models/event"
+import Meetup from "../../../models/meetup"
+import Community from "../../../models/community"
 /**
  * @param {import('next').NextApiRequest} req
  * @param {import('next').NextApiResponse} res
@@ -14,14 +16,14 @@ export default async function addTest(req, res) {
     console.log('CONNECTED TO MONGO')
 
     console.log('CREATING DOCUMENT')
-    const user = await User.create(req.body)
+    const event = await Event.create(req.body)
     console.log('CREATED DOCUMENT')
 
     console.log('DISCONNECTING MONGODB')
     await disconnectMongo()
     console.log('DISCONNECTED MONGODB')
 
-    res.json({ user })
+    res.json({ event })
   } catch (error) {
     console.log(error)
     res.json({ error })

@@ -1,7 +1,7 @@
 import React from 'react'
 import tw from 'twin.macro'
-import Signup from '../components/register/Signup'
 import { Button, Logo } from './../components'
+import Nookies from 'nookies'
 
 const styles = {
   // Move long class sets out of jsx to keep it scannable
@@ -11,10 +11,25 @@ const styles = {
   ],
 }
 
-const IndexPage = () => (
-  <div css={styles.container({ hasBackground: true })}>
-    <Signup />
-  </div>
-)
+const IndexPage = () => <div>DashBoard</div>
+
+export async function getServerSideProps(context) {
+  const { req } = context
+
+  const cookies = Nookies.get({ req })
+
+  if (!cookies.token) {
+    return {
+      redirect: {
+        destination: '/signin',
+        permanent: false,
+      },
+    }
+  }
+
+  return {
+    props: {},
+  }
+}
 
 export default IndexPage
