@@ -1,21 +1,22 @@
 import tw from 'twin.macro'
+import axios from 'axios'
 
 export default function Username({ user }) {
   return (
-    <>
+    <div>
       <section tw="p-2 mx-auto my-0 md:p-4 lg:w-8/12">
         {/* Hero Profile */}
         <div tw="flex flex-col justify-between py-4 md:flex-row ">
           {/* Image */}
           <div tw="mx-auto my-0">
             <div tw="w-32 h-32 rounded-full border-4 border-gray-400 bg-gray-300 flex justify-center items-center text-5xl font-bold">
-              <p>{user.name[0]}</p>
+              <p>{user.username[0].toUpperCase()}</p>
             </div>
           </div>
           {/* Hero Information */}
           <div tw="flex flex-col flex-grow p-4">
             <h1 tw="mb-1 capitalize font-serif text-2xl font-bold text-gray-700">
-              {user.name}
+              {user.username}
             </h1>
             <div tw="flex flex-col text-lg capitalize text-gray-700 md:flex-row w-60 md:w-full">
               <span>role</span> <span tw="hidden px-1 md:inline"> • </span>{' '}
@@ -26,11 +27,11 @@ export default function Username({ user }) {
 
           <div tw="flex gap-2 md:gap-0 justify-center md:flex-col">
             <a
-              href={user.websites}
+              // href={user.websites}
               target="_blank"
               rel="noopener noreferrer"
               //   onClick={handleFollowClick}
-              tw="border my-2 rounded-full p-2 w-28 cursor-pointer font-semibold bg-indigo-600 text-white hover:bg-white hover:text-indigo-600 transition-all duration-300 hover:border-indigo-600 border-white"
+              tw="border my-2 rounded-full text-center p-2 w-28 cursor-pointer font-semibold bg-indigo-600 text-white hover:bg-white hover:text-indigo-600 transition-all duration-300 hover:border-indigo-600 border-white"
             >
               Contact
             </a>
@@ -77,7 +78,7 @@ export default function Username({ user }) {
             <div tw="flex flex-col py-2">
               <h3 tw="mb-1 text-lg font-bold text-gray-700">E-Mail ID</h3>
               <a
-                href={`mailto:${user.email}`}
+                // href={`mailto:${user.email}`}
                 tw="text-lg text-indigo-600 hover:text-indigo-600"
               >
                 {user.email}
@@ -103,7 +104,7 @@ export default function Username({ user }) {
             <div tw="flex flex-col py-2">
               <h3 tw="mb-1 text-lg font-bold text-gray-700">Role</h3>{' '}
               <a
-                href={`mailto:${user.email}`}
+                // href={`mailto:${user.email}`}
                 tw="text-lg text-indigo-600 hover:text-indigo-600"
               >
                 email
@@ -136,32 +137,41 @@ export default function Username({ user }) {
           {/* <ProjectCard /> */}
         </section>
       </section>
-    </>
+    </div>
   )
 }
 
-export async function getStaticPaths() {
-  return {
-    paths: [
-      {
-        params: { username: 'clumsycoder' },
-      },
-    ],
-    fallback: false,
-  }
-}
+// export async function getStaticPaths() {
+//   return {
+//     paths: [
+//       {
+//         params: { username: 'clumsycoder' },
+//         params: { username: 'sameep' },
+//       },
+//     ],
+//     fallback: false,
+//   }
+// }
 
-export async function getStaticProps(context) {
-  const { params } = context
-  const user = {
-    username: 'clumsycoder',
-    name: 'Kaushal Joshi',
-    email: '7joshikaushal@gmail.com',
-    website: 'https://www.kaushaljoshi.dev',
-  }
+export async function getServerSideProps(context) {
+  const {
+    params: { uid },
+  } = context
+
+  const user = await axios
+    .post('http://localhost:3000/api/user/getuser', {
+      uid,
+    })
+    .then(response => {
+      return response.data
+    })
+    .catch(error => {
+      console.log(error.message)
+    })
+
   return {
     props: {
-      user,
+      user: user[0],
     },
   }
 }
