@@ -18,6 +18,6 @@ export default async function (req, res, next) {
       path: '/',
     })
 
-    res.redirect(`http://localhost:3000/dashboard`)
+    res.redirect(`http://localhost:3000`)
   })(req, res, next)
 }
