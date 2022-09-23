@@ -17,7 +17,6 @@ function Interests({
 }) {
   return (
     <div tw="flex flex-wrap space-y-5">
-      {/* <div tw="flex flex-wrap gap-1"> */}
       {INTERESTS.map(interest => {
         return (
           <p
@@ -34,7 +33,7 @@ function Interests({
           </p>
         )
       })}
-      {/* </div> */}
+
       <button
         onClick={handleSubmit}
         tw="inline-flex text-xl font-bold items-center justify-center w-full py-3 space-x-2 font-medium text-white bg-indigo-600 border-indigo-500 rounded-lg hover:bg-indigo-500 hover:shadow"
