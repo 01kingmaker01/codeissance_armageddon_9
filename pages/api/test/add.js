@@ -1,4 +1,5 @@
 import connectMongo from '../../../assets/utils/connectMongo'
+import disconnectMongo from '../../../assets/utils/disconnectMongo'
 import { Test } from '../../../models/testModel'
 
 /**
@@ -15,7 +16,11 @@ export default async function addTest(req, res) {
     const test = await Test.create(req.body)
     console.log('CREATED DOCUMENT')
 
-    res.json({ test })
+    console.log('DISCONNECTING MONGODB')
+    await disconnectMongo()
+    console.log('DISCONNECTED MONGODB')
+
+    res.json({ TextTrackCueList })
   } catch (error) {
     console.log(error)
     res.json({ error })
