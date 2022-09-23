@@ -1,4 +1,4 @@
-import * as bcrypt from 'bcryptjs'
+++++++++++++++++++import * as bcrypt from 'bcryptjs'
 import * as jwt from 'jsonwebtoken'
 import nookies from 'nookies'
 import { User } from '../../../models/user'
@@ -6,7 +6,6 @@ import connectMongo from '../../../assets/utils/connectMongo'
 import disconnectMongo from '../../../assets/utils/disconnectMongo'
 
 const secret = 'SECRET'
-
 //Sign up handler.
 const handler = async (req, res) => {
   try {
