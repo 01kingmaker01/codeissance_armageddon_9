@@ -6,7 +6,6 @@ import connectMongo from '../../../assets/utils/connectMongo'
 import disconnectMongo from '../../../assets/utils/disconnectMongo'
 
 const secret = 'SECRET'
-
 //Sign up handler.
 const handler = async (req, res) => {
   try {
