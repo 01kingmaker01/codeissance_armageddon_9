@@ -26,11 +26,11 @@ export default function Username({ user }) {
 
           <div tw="flex gap-2 md:gap-0 justify-center md:flex-col">
             <a
-              href={user.websites}
+              href={user.website}
               target="_blank"
               rel="noopener noreferrer"
               //   onClick={handleFollowClick}
-              tw="border my-2 rounded-full p-2 w-28 cursor-pointer font-semibold bg-indigo-600 text-white hover:bg-white hover:text-indigo-600 transition-all duration-300 hover:border-indigo-600 border-white"
+              tw="border my-2 text-center rounded-full p-2 w-28 cursor-pointer font-semibold bg-indigo-600 text-white hover:bg-white hover:text-indigo-600 transition-all duration-300 hover:border-indigo-600 border-white"
             >
               Contact
             </a>
