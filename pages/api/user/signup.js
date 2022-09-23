@@ -17,12 +17,16 @@ const handler = async (req, res) => {
 
     //check if the user is present or not.
     const isUserEmail = await User.find({
-      emailId: userEmail,
+      email: userEmail,
     })
+
+    console.log(isUserEmail)
 
     const isUserUserName = await User.find({
       username: userUsername,
     })
+
+    console.log(isUserUserName)
 
     if (isUserEmail.length > 0) {
       throw new Error('User Email exits!')
@@ -36,7 +40,7 @@ const handler = async (req, res) => {
     const bycrptedPassword = await bcrypt.hash(userPassword, 10)
     //Creating a new user.
     const user = await User.create({
-      emailId: userEmail,
+      email: userEmail,
       password: bycrptedPassword,
       username: userUsername,
     })
