@@ -5,7 +5,7 @@ import axios from 'axios'
 import { useRouter } from 'next/router'
 import toast from 'react-hot-toast'
 
-function PersonalInfo({}) {
+function PersonalInfo({ }) {
   const [email, setEmail] = useState('')
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
