@@ -2,39 +2,25 @@ import { useEffect, useState } from 'react'
 import tw from 'twin.macro'
 import CITIES from '../../public/cities'
 import STATES from '../../public/states'
-function Event() {
-  const [event, setEvent] = useState({
-    name: '',
-    capacity: '',
-    charges: '',
-    amount: '',
-    city: '',
-    date: '',
-    description: '',
-    from: '',
-    until: '',
-    mode: '',
-    state: '',
-    city: '',
-    tags: '',
-  })
+import { ARR_OBJ_INTERESTS } from '../../public/arrObjInterest'
 
-  console.log(event)
-
+const Event = () => {
+  const [event, setEvent] = useState({})
   const [events, setEvents] = useState([])
-
-  console.log(events)
-
   const [stateIndex, setStateIndex] = useState(0)
   const [tagsValue, setTagsValue] = useState([])
+
+  console.log(events)
   // useEffect(() => {
   //   console.log(event)
   // }, [event])
+  // useEffect(() => {
+  //   newTags.push(label)
+  //   setEvent({ ...event, tags: newTags })
+  // }, [tagsValue])
 
   const handleSubmit = e => {
     e.preventDefault()
-    console.log(event)
-
     event.tags = tagsValue
 
     setEvents([...events, event])
@@ -232,7 +218,7 @@ function Event() {
         </div>
 
         {/* <div tw="flex md:flex-col flex-wrap gap-2">
-d<label htmlFor="state" tw="pb-2 font-medium capitalize text-gray-700">
+          d<label htmlFor="state" tw="pb-2 font-medium capitalize text-gray-700">
             <p tw="pb-2 font-medium text-gray-700">State</p>
             <select
               tw="w-full px-3 py-3 border rounded-lg border-gray-200 focus:outline-none focus:border-gray-500 hover:shadow"
