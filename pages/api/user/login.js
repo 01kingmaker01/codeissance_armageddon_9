@@ -5,7 +5,7 @@ import User from '../../../models/user'
 import connectMongo from '../../../assets/utils/connectMongo'
 import disconnectMongo from '../../../assets/utils/disconnectMongo'
 
-const secret = 'secret'
+const jwtSceret = 'SECRET'
 
 const handler = async (req, res) => {
   try {
@@ -29,7 +29,7 @@ const handler = async (req, res) => {
     }
 
     // creating the jwt token and storing it in cookies.
-    const token = jwt.sign({ userId: isUser[0]._id }, secret, {
+    const token = jwt.sign({ userId: isUser[0]._id }, jwtSceret, {
       expiresIn: '7d',
     })
 

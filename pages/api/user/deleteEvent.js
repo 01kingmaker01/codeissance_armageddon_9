@@ -1,18 +1,25 @@
-import mongoose from 'mongoose'
-let ObjectId = require('mongoose').Types.ObjectId
+import Event from '../../../models/event'
 import connectMongo from '../../../assets/utils/connectMongo'
 import disconnectMongo from '../../../assets/utils/disconnectMongo'
-import User from '../../../models/user'
+let ObjectId = require('mongoose').Types.ObjectId
+
+const secret = 'secret'
 
 const handler = async (req, res) => {
   try {
-    const { uid } = req.body
-    await connectMongo()
+    const { eventId, name } = req.body
 
-    const doc = await User.find({ _id: new ObjectId(uid) })
+    await connectMongo()
+    
+    const deletedEvent = await Event.deleteOne({
+      $and: [{ _id: ObjectId(eventId) }, {name: name}]
+    })
+
     await disconnectMongo()
 
-    res.json(doc)
+    res.status(200).send({
+      message: 'done',  
+    })
   } catch (error) {
     res.status(500).send({
       error: error.message,

@@ -64,12 +64,14 @@ function PersonalInfo({ }) {
           toast.success('User Registered!', {
             id: notification,
           })
-          setError('')
-          setEmial('')
-          setUsername('')
-          setPassword('')
-          setVerifyPassword('')
-          router.push('/')
+          if (response) {
+            setError('')
+            setEmial('')
+            setUsername('')
+            setPassword('')
+            setVerifyPassword('')
+            router.push('/')
+          }
         })
         .catch(error => {
           toast.error(error.response.data.error, {

@@ -9,7 +9,7 @@ const handler = async (req, res) => {
       const { mid } = req.query
       await connectMongo()
       
-      const doc = await Meetup.find(
+      const doc = await Meetup.findOne(
         { _id : new ObjectId(mid)}
       )
       await disconnectMongo()

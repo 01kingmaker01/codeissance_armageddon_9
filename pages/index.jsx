@@ -1,7 +1,10 @@
 import React from 'react'
 import tw from 'twin.macro'
-import { Button, Logo } from './../components'
+import { Button, Logo } from '../components'
 import Nookies from 'nookies'
+import axios from 'axios'
+import * as jwt from 'jsonwebtoken'
+import Link from 'next/link'
 
 const styles = {
   // Move long class sets out of jsx to keep it scannable
@@ -11,7 +14,13 @@ const styles = {
   ],
 }
 
-const IndexPage = () => <div>DashBoard</div>
+const IndexPage = ({ user }) => {
+  return (
+    <div>
+      <Link href={`/user/${user._id}`}>{user.username}</Link>
+    </div>
+  )
+}
 
 export async function getServerSideProps(context) {
   const { req } = context
@@ -27,8 +36,16 @@ export async function getServerSideProps(context) {
     }
   }
 
+  const response = await fetch(
+    `http://localhost:3000/api/user/${cookies.token}`,
+  )
+
+  const { user } = await response.json()
+
   return {
-    props: {},
+    props: {
+      user,
+    },
   }
 }
 
