@@ -1,14 +1,25 @@
 import { useEffect, useState } from "react";
+import Select from 'react-select';
+
 import tw from "twin.macro";
 import CITIES from "../../public/cities";
 import STATES from "../../public/states";
+import { ARR_OBJ_INTERESTS } from "../../public/arrObjInterest"
+
 function Event() {
   const [event, setEvent] = useState({});
 
-  const [stateIndex, setStateIndex] = useState();
-  useEffect(() => {
-    console.log(event);
-  }, [event]);
+  const [tags, setTags] = useState([])
+  const [stateIndex, setStateIndex] = useState(); useEffect(() => {
+    let newTags = []
+    tags && tags.forEach(tag => {
+      const { label } = tag
+
+      newTags.push(label)
+    })
+    setEvent({ ...event, tags: newTags })
+  }, [tags]);
+
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -232,16 +243,15 @@ function Event() {
           </label>
         </div>
 
-        <label htmlFor="tags" tw="pb-2 font-medium capitalize text-gray-700">
-          Suitable Tags
-          <input
-            id="tags"
-            name="tags"
-            type="text"
-            tw="w-full px-3 py-3 border lowercase rounded-lg border-gray-200 focus:outline-none focus:border-gray-500 hover:shadow"
-            placeholder="Comma,separated,tags,to,keep,it,easy"
-            value={event.name}
-            onChange={(e) => setEvent({ ...event, tags: e.target.tags })}
+        <label htmlFor="type">
+          <p tw="pb-2 font-medium text-gray-700">What Other Aspects Are You Planning to Cover?</p>
+
+          <Select
+            // defaultValue={[colourOptions[2], colourOptions[3]]}
+            isMulti
+            name="Interests"
+            options={ARR_OBJ_INTERESTS}
+            onChange={setTags}
           />
         </label>
 
