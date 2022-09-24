@@ -4,7 +4,6 @@ const Schema = mongoose.Schema
 const eventSchema = new Schema({
   name: String,
   organiser: [String],
-  community: String,
   description: String,
   type: String,
   price: Number,
@@ -22,8 +21,8 @@ const eventSchema = new Schema({
     telegram: String,
     twitter: String,
     instagram: String,
-    linkedin: String
-  }
+    linkedin: String,
+  },
 })
 
 module.exports = mongoose.models.Event || mongoose.model('Event', eventSchema)
