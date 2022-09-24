@@ -1,23 +1,37 @@
-import { useEffect, useState } from "react";
-import tw from "twin.macro";
-import CITIES from "../../public/cities";
-import STATES from "../../public/states";
+import { useEffect, useState } from 'react'
+import tw from 'twin.macro'
+import CITIES from '../../public/cities'
+import STATES from '../../public/states'
 function Event() {
-  const [event, setEvent] = useState({});
+  const [event, setEvent] = useState({})
 
-  const [stateIndex, setStateIndex] = useState();
-  useEffect(() => {
-    console.log(event);
-  }, [event]);
+  console.log(event)
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    console.log(JSON.stringify(stateIndex));
-  };
+  const [events, setEvents] = useState([])
+
+  console.log(events)
+
+  const [stateIndex, setStateIndex] = useState(0)
+  // useEffect(() => {
+  //   console.log(event)
+  // }, [event])
+
+  const handleSubmit = e => {
+    e.preventDefault()
+    console.log(event)
+
+    setEvents([...events, event])
+    setEvent({})
+    setStateIndex(0)
+  }
+
+  const onChange = (name, value) => {
+    setEvent({ ...event, [name]: value })
+  }
 
   return (
     <div tw="flex flex-col space-y-5">
-      <form tw="flex flex-col gap-2">
+      <form tw="flex flex-col gap-2 mx-5">
         <label htmlFor="name" tw="pb-2 font-medium capitalize text-gray-700">
           Event Information
           <input
@@ -27,7 +41,7 @@ function Event() {
             tw="w-full px-3 py-3 border rounded-lg border-gray-200 focus:outline-none focus:border-gray-500 hover:shadow"
             placeholder="The cool kids club"
             value={event.name}
-            onChange={(e) => setEvent({ ...event, name: e.target.value })}
+            onChange={e => onChange(e.target.name, e.target.value)}
           />
         </label>
 
@@ -43,9 +57,7 @@ function Event() {
             cols="50"
             placeholder="More than what, why and where. Please!"
             tw="p-1 border border-black rounded-md shadow-md"
-            onChange={(e) =>
-              setEvent({ ...event, description: e.target.value })
-            }
+            onChange={e => onChange(e.target.name, e.target.value)}
           ></textarea>
         </label>
 
@@ -56,7 +68,7 @@ function Event() {
             tw="w-full px-3 py-3 border rounded-lg border-gray-200  focus:outline-none focus:border-gray-500 hover:shadow"
             id="type"
             name="type"
-            onChange={(e) => setEvent({ ...event, type: e.target.value })}
+            onChange={e => onChange(e.target.name, e.target.value)}
           >
             <option value="hackathon">Hackathon</option>
             <option value="workshop">workshop</option>
@@ -73,7 +85,7 @@ function Event() {
               tw="w-full px-3 py-3 border rounded-lg border-gray-200  focus:outline-none focus:border-gray-500 hover:shadow"
               id="mode"
               name="mode"
-              onChange={(e) => setEvent({ ...event, mode: e.target.value })}
+              onChange={e => onChange(e.target.name, e.target.value)}
             >
               <option value="offline">Offline</option>
               <option value="online">Online</option>
@@ -93,7 +105,7 @@ function Event() {
               tw="w-full px-3 py-3 border rounded-lg border-gray-200 focus:outline-none focus:border-gray-500 hover:shadow"
               // placeholder="The cool kids club"
               value={event.capacity}
-              onChange={(e) => setEvent({ ...event, capacity: e.target.value })}
+              onChange={e => onChange(e.target.name, e.target.value)}
             />
           </label>
         </div>
@@ -108,7 +120,7 @@ function Event() {
               tw="w-full px-3 py-3 border rounded-lg border-gray-200 focus:outline-none focus:border-gray-500 hover:shadow"
               // placeholder="The cool kids club"
               value={event.date}
-              onChange={(e) => setEvent({ ...event, date: e.target.value })}
+              onChange={e => onChange(e.target.name, e.target.value)}
             />
           </label>
           <label htmlFor="from" tw="pb-2 font-medium capitalize text-gray-700">
@@ -120,7 +132,7 @@ function Event() {
               tw="w-full px-3 py-3 border rounded-lg border-gray-200 focus:outline-none focus:border-gray-500 hover:shadow"
               // placeholder="The cool kids club"
               value={event.from}
-              onChange={(e) => setEvent({ ...event, from: e.target.value })}
+              onChange={e => onChange(e.target.name, e.target.value)}
             />
           </label>
           <label htmlFor="until" tw="pb-2 font-medium capitalize text-gray-700">
@@ -132,7 +144,7 @@ function Event() {
               tw="w-full px-3 py-3 border rounded-lg border-gray-200 focus:outline-none focus:border-gray-500 hover:shadow"
               // placeholder="The cool kids club"
               value={event.until}
-              onChange={(e) => setEvent({ ...event, until: e.target.value })}
+              onChange={e => onChange(e.target.name, e.target.value)}
             />
           </label>
         </div>
@@ -145,24 +157,20 @@ function Event() {
                 type="radio"
                 value="free"
                 name="charges"
-                onChange={(e) =>
-                  setEvent({ ...event, charges: e.target.value })
-                }
+                onChange={e => onChange(e.target.name, e.target.value)}
               />
               Free
               <input
                 type="radio"
                 value="paid"
                 name="charges"
-                onChange={(e) =>
-                  setEvent({ ...event, charges: e.target.value })
-                }
-              />{" "}
+                onChange={e => onChange(e.target.name, e.target.value)}
+              />{' '}
               Paid
             </div>
           </label>
           <div tw="flex flex-col space-y-5">
-            {event.charges === "paid" && (
+            {event.charges === 'paid' && (
               <>
                 <label
                   htmlFor="amount"
@@ -176,11 +184,9 @@ function Event() {
                     tw="w-full px-3 py-3 border rounded-lg border-gray-200 focus:outline-none focus:border-gray-500 hover:shadow"
                     placeholder="Dedso Rupaya?"
                     value={event.amount}
-                    onChange={(e) =>
-                      setEvent({ ...event, amount: e.target.value })
-                    }
+                    onChange={e => onChange(e.target.name, e.target.value)}
                   />
-                </label>{" "}
+                </label>{' '}
               </>
             )}
           </div>
@@ -194,18 +200,18 @@ function Event() {
               tw="w-full px-3 py-3 border rounded-lg border-gray-200 focus:outline-none focus:border-gray-500 hover:shadow"
               id="state"
               name="state"
-              onChange={(e) => {
-                setEvent({ ...event, state: e.target.value });
-                setStateIndex(e.target.selectedIndex);
+              onChange={e => {
+                onChange(e.target.name, e.target.value)
+                setStateIndex(e.target.selectedIndex)
               }}
             >
               <option>Select State</option>
-              {STATES.map((state) => {
+              {STATES.map(state => {
                 return (
                   <option key={state} value={state}>
                     {state}
                   </option>
-                );
+                )
               })}
             </select>
           </label>
@@ -217,16 +223,16 @@ function Event() {
               tw="w-full px-3 py-3 border rounded-lg border-gray-200 focus:outline-none focus:border-gray-500 hover:shadow"
               id="city"
               name="city"
-              onChange={(e) => setEvent({ ...event, city: e.target.value })}
+              onChange={e => onChange(e.target.name, e.target.value)}
             >
               <option>Select City</option>
               {stateIndex &&
-                CITIES[stateIndex].split("|").map((city) => {
+                CITIES[stateIndex].split('|').map(city => {
                   return (
                     <option key={city} value={city}>
                       {city}
                     </option>
-                  );
+                  )
                 })}
             </select>
           </label>
@@ -241,7 +247,7 @@ function Event() {
             tw="w-full px-3 py-3 border lowercase rounded-lg border-gray-200 focus:outline-none focus:border-gray-500 hover:shadow"
             placeholder="Comma,separated,tags,to,keep,it,easy"
             value={event.name}
-            onChange={(e) => setEvent({ ...event, tags: e.target.tags })}
+            onChange={e => onChange(e.target.name, e.target.value)}
           />
         </label>
 
@@ -253,7 +259,7 @@ function Event() {
         </button>
       </form>
     </div>
-  );
+  )
 }
 
-export default Event;
+export default Event

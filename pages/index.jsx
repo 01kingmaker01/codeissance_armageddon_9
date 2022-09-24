@@ -5,6 +5,7 @@ import Nookies from 'nookies'
 import axios from 'axios'
 import * as jwt from 'jsonwebtoken'
 import Link from 'next/link'
+import Events from '../components/add/Event'
 
 const styles = {
   // Move long class sets out of jsx to keep it scannable
@@ -17,7 +18,7 @@ const styles = {
 const IndexPage = ({ user }) => {
   return (
     <div>
-      <Link href={`/user/${user._id}`}>{user.username}</Link>
+      <Events />
     </div>
   )
 }
