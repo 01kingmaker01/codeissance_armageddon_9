@@ -3,6 +3,8 @@ import tw from 'twin.macro'
 import CITIES from '../../public/cities'
 import STATES from '../../public/states'
 import { ARR_OBJ_INTERESTS } from '../../public/arrObjInterest'
+import axios from 'axios'
+import toast from 'react-hot-toast'
 
 const Event = () => {
   const [event, setEvent] = useState({})
@@ -10,7 +12,7 @@ const Event = () => {
   const [stateIndex, setStateIndex] = useState(0)
   const [tagsValue, setTagsValue] = useState([])
 
-  console.log(events)
+  // console.log(events)
   // useEffect(() => {
   //   console.log(event)
   // }, [event])
@@ -19,25 +21,40 @@ const Event = () => {
   //   setEvent({ ...event, tags: newTags })
   // }, [tagsValue])
 
-  const handleSubmit = e => {
+  const handleSubmit = async e => {
+    let notification
     e.preventDefault()
     event.tags = tagsValue
 
     setEvents([...events, event])
-    setEvent({
-      name: '',
-      description: '',
-      type: '',
-      amount: '',
-      mode: '',
-      date: '',
-      time: '',
-      place: '',
-      capacity: '',
-      tags: [],
-    })
-    setTagsValue([])
-    setStateIndex(0)
+    notification = toast.loading('Creating Events!')
+    await axios
+      .post('http://localhost:3000/api/user/addevent', event)
+      .then(response => {
+        toast.success('Created!', {
+          id: notification,
+        })
+        setEvent({
+          name: '',
+          description: '',
+          type: '',
+          amount: '',
+          mode: '',
+          date: '',
+          time: '',
+          place: '',
+          capacity: '',
+          tags: [],
+        })
+        setTagsValue([])
+        setStateIndex(0)
+      })
+      .catch(err => {
+        console.log(err)
+        toast.error(error.response.data.error, {
+          id: notification,
+        })
+      })
   }
 
   const onTagChange = (name, value) => {
