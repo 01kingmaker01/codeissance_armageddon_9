@@ -3,7 +3,21 @@ import tw from 'twin.macro'
 import CITIES from '../../public/cities'
 import STATES from '../../public/states'
 function Event() {
-  const [event, setEvent] = useState({})
+  const [event, setEvent] = useState({
+    name: '',
+    capacity: '',
+    charges: '',
+    amount: '',
+    city: '',
+    date: '',
+    description: '',
+    from: '',
+    until: '',
+    mode: '',
+    state: '',
+    city: '',
+    tags: '',
+  })
 
   console.log(event)
 
@@ -12,6 +26,7 @@ function Event() {
   console.log(events)
 
   const [stateIndex, setStateIndex] = useState(0)
+  const [tagsValue, setTagsValue] = useState([])
   // useEffect(() => {
   //   console.log(event)
   // }, [event])
@@ -20,9 +35,28 @@ function Event() {
     e.preventDefault()
     console.log(event)
 
+    event.tags = tagsValue
+
     setEvents([...events, event])
-    setEvent({})
+    setEvent({
+      name: '',
+      description: '',
+      type: '',
+      amount: '',
+      mode: '',
+      date: '',
+      time: '',
+      place: '',
+      capacity: '',
+      tags: [],
+    })
+    setTagsValue([])
     setStateIndex(0)
+  }
+
+  const onTagChange = (name, value) => {
+    const tags = value.split(',')
+    setTagsValue(tags)
   }
 
   const onChange = (name, value) => {
@@ -57,6 +91,7 @@ function Event() {
             cols="50"
             placeholder="More than what, why and where. Please!"
             tw="p-1 border border-black rounded-md shadow-md"
+            value={event.description}
             onChange={e => onChange(e.target.name, e.target.value)}
           ></textarea>
         </label>
@@ -68,8 +103,10 @@ function Event() {
             tw="w-full px-3 py-3 border rounded-lg border-gray-200  focus:outline-none focus:border-gray-500 hover:shadow"
             id="type"
             name="type"
+            value={event.type}
             onChange={e => onChange(e.target.name, e.target.value)}
           >
+            <option>Select Event</option>
             <option value="hackathon">Hackathon</option>
             <option value="workshop">workshop</option>
             <option value="seminar">seminar</option>
@@ -85,8 +122,10 @@ function Event() {
               tw="w-full px-3 py-3 border rounded-lg border-gray-200  focus:outline-none focus:border-gray-500 hover:shadow"
               id="mode"
               name="mode"
+              value={event.mode}
               onChange={e => onChange(e.target.name, e.target.value)}
             >
+              <option>Select Mode</option>
               <option value="offline">Offline</option>
               <option value="online">Online</option>
               <option value="hybrid">Hybrid</option>
@@ -103,7 +142,7 @@ function Event() {
               name="capacity"
               type="number"
               tw="w-full px-3 py-3 border rounded-lg border-gray-200 focus:outline-none focus:border-gray-500 hover:shadow"
-              // placeholder="The cool kids club"
+              placeholder="How Many Folks Can You Accomodate?"
               value={event.capacity}
               onChange={e => onChange(e.target.name, e.target.value)}
             />
@@ -124,7 +163,7 @@ function Event() {
             />
           </label>
           <label htmlFor="from" tw="pb-2 font-medium capitalize text-gray-700">
-            Time (From)
+            Time
             <input
               id="from"
               name="from"
@@ -135,15 +174,15 @@ function Event() {
               onChange={e => onChange(e.target.name, e.target.value)}
             />
           </label>
-          <label htmlFor="until" tw="pb-2 font-medium capitalize text-gray-700">
-            Until (approx)
+          <label htmlFor="place" tw="pb-2 font-medium capitalize text-gray-700">
+            Place
             <input
-              id="until"
-              name="until"
-              type="time"
+              id="place"
+              name="place"
+              type="text"
               tw="w-full px-3 py-3 border rounded-lg border-gray-200 focus:outline-none focus:border-gray-500 hover:shadow"
-              // placeholder="The cool kids club"
-              value={event.until}
+              placeholder="How Many Folks Can You Accomodate?"
+              value={event.place}
               onChange={e => onChange(e.target.name, e.target.value)}
             />
           </label>
@@ -192,14 +231,14 @@ function Event() {
           </div>
         </div>
 
-        <div tw="flex md:flex-col flex-wrap gap-2">
-          {/* State */}
-          <label htmlFor="state" tw="pb-2 font-medium capitalize text-gray-700">
+        {/* <div tw="flex md:flex-col flex-wrap gap-2">
+d<label htmlFor="state" tw="pb-2 font-medium capitalize text-gray-700">
             <p tw="pb-2 font-medium text-gray-700">State</p>
             <select
               tw="w-full px-3 py-3 border rounded-lg border-gray-200 focus:outline-none focus:border-gray-500 hover:shadow"
               id="state"
               name="state"
+              value={event.state}
               onChange={e => {
                 onChange(e.target.name, e.target.value)
                 setStateIndex(e.target.selectedIndex)
@@ -216,7 +255,6 @@ function Event() {
             </select>
           </label>
 
-          {/* Cities */}
           <label htmlFor="city" tw="pb-2 font-medium capitalize text-gray-700">
             <p tw="pb-2 font-medium text-gray-700">City</p>
             <select
@@ -236,7 +274,7 @@ function Event() {
                 })}
             </select>
           </label>
-        </div>
+        </div> */}
 
         <label htmlFor="tags" tw="pb-2 font-medium capitalize text-gray-700">
           Suitable Tags
@@ -246,14 +284,15 @@ function Event() {
             type="text"
             tw="w-full px-3 py-3 border lowercase rounded-lg border-gray-200 focus:outline-none focus:border-gray-500 hover:shadow"
             placeholder="Comma,separated,tags,to,keep,it,easy"
-            value={event.name}
-            onChange={e => onChange(e.target.name, e.target.value)}
+            value={tagsValue}
+            onChange={e => onTagChange(e.target.name, e.target.value)}
           />
         </label>
 
         <button
+          type="submit"
           tw="bg-green-500 hover:border-green-500 hover:text-green-500 hover:shadow-lg hover:bg-white inline my-8 border rounded-lg p-2 text-white font-semibold hover:border-green-500 cursor-pointer border-white transition-all duration-300"
-          onClick={handleSubmit}
+          onClick={e => handleSubmit(e)}
         >
           Post
         </button>
