@@ -1,10 +1,7 @@
 import connectMongo from '../../../assets/utils/connectMongo'
 import disconnectMongo from '../../../assets/utils/disconnectMongo'
-import Test from '../../../models/testModel'
-import User from "../../../models/user"
 import Event from "../../../models/event"
-import Meetup from "../../../models/meetup"
-import Community from "../../../models/community"
+
 /**
  * @param {import('next').NextApiRequest} req
  * @param {import('next').NextApiResponse} res
