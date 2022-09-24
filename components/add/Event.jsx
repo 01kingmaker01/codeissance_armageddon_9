@@ -10,7 +10,8 @@ function Event() {
   const [event, setEvent] = useState({})
 
   const [tags, setTags] = useState([])
-  const [stateIndex, setStateIndex] = useState(); useEffect(() => {
+  const [stateIndex, setStateIndex] = useState();
+  useEffect(() => {
     let newTags = []
     tags && tags.forEach(tag => {
       const { label } = tag
@@ -20,24 +21,6 @@ function Event() {
     setEvent({ ...event, tags: newTags })
   }, [tags]);
 
-
-  const [events, setEvents] = useState([])
-
-  console.log(events)
-
-  const [stateIndex, setStateIndex] = useState(0)
-  // useEffect(() => {
-  //   console.log(event)
-  // }, [event])
-
-  const handleSubmit = e => {
-    e.preventDefault()
-    console.log(event)
-
-    setEvents([...events, event])
-    setEvent({})
-    setStateIndex(0)
-  }
 
   const onChange = (name, value) => {
     setEvent({ ...event, [name]: value })
