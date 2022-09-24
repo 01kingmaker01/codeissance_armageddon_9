@@ -20,6 +20,7 @@
     "googleapis": "^108.0.0",
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^6.6.1",
+    "multiselect-react-dropdown": "^2.0.25",
     "next": "^12.3.1",
     "nodemailer": "^6.7.8",
     "nookies": "^2.5.2",
@@ -28,6 +29,7 @@
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-hot-toast": "^2.4.0",
+    "react-select": "^5.4.0",
     "react-slick": "^0.29.0",
     "slick-carousel": "^1.8.1",
     "styled-components": "^5.3.5"

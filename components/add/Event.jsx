@@ -1,29 +1,26 @@
-import { useEffect, useState } from 'react'
-import tw from 'twin.macro'
-import CITIES from '../../public/cities'
-import STATES from '../../public/states'
+import { useEffect, useState } from "react";
+import Select from 'react-select';
+
+import tw from "twin.macro";
+import CITIES from "../../public/cities";
+import STATES from "../../public/states";
+import { ARR_OBJ_INTERESTS } from "../../public/arrObjInterest"
+
 function Event() {
   const [event, setEvent] = useState({})
 
-  console.log(event)
+  const [tags, setTags] = useState([])
+  const [stateIndex, setStateIndex] = useState();
+  useEffect(() => {
+    let newTags = []
+    tags && tags.forEach(tag => {
+      const { label } = tag
 
-  const [events, setEvents] = useState([])
+      newTags.push(label)
+    })
+    setEvent({ ...event, tags: newTags })
+  }, [tags]);
 
-  console.log(events)
-
-  const [stateIndex, setStateIndex] = useState(0)
-  // useEffect(() => {
-  //   console.log(event)
-  // }, [event])
-
-  const handleSubmit = e => {
-    e.preventDefault()
-    console.log(event)
-
-    setEvents([...events, event])
-    setEvent({})
-    setStateIndex(0)
-  }
 
   const onChange = (name, value) => {
     setEvent({ ...event, [name]: value })
@@ -238,16 +235,15 @@ function Event() {
           </label>
         </div>
 
-        <label htmlFor="tags" tw="pb-2 font-medium capitalize text-gray-700">
-          Suitable Tags
-          <input
-            id="tags"
-            name="tags"
-            type="text"
-            tw="w-full px-3 py-3 border lowercase rounded-lg border-gray-200 focus:outline-none focus:border-gray-500 hover:shadow"
-            placeholder="Comma,separated,tags,to,keep,it,easy"
-            value={event.name}
-            onChange={e => onChange(e.target.name, e.target.value)}
+        <label htmlFor="type">
+          <p tw="pb-2 font-medium text-gray-700">What Other Aspects Are You Planning to Cover?</p>
+
+          <Select
+            // defaultValue={[colourOptions[2], colourOptions[3]]}
+            isMulti
+            name="Interests"
+            options={ARR_OBJ_INTERESTS}
+            onChange={setTags}
           />
         </label>
 

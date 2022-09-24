@@ -14,6 +14,8 @@ const RenderNext = type => {
       return <Event />
     case "news":
       return <News />
+    case "community":
+      return <Community />
   }
 
 }
@@ -48,6 +50,7 @@ function Add() {
             <option value="meetup">Meetup</option>
             <option value="event">Event</option>
             <option value="news">News</option>
+            <option value="community">Community</option>
           </select>
         </label>
 
